@@ -1,39 +1,34 @@
 <script lang="ts">
     export let pokemon: {
+        id: number;
         name: string;
         weight: number;
         types: string[];
         abilities: string[];
         baseStats: { name: string; value: number }[];
-        image: string;
     } | null;
 </script>
 
-<div>
+<div
+    class="absolute inset-0 h-full w-full bg-white bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"
+>
     {#if pokemon}
-        <img src={pokemon.image} alt={pokemon.name} />
-        <h1 class="text-3xl font-bold mb-4">{pokemon.name}</h1>
-        <p class="text-lg mb-2">Weight: {pokemon.weight}</p>
+        <div class="flex justify-center">
+            <div class="grid xxs:grid-cols-1 sm:grid-cols-2 space-x-16 mt-8">
+                <div>
+                    <img
+                        src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`}
+                        alt={pokemon.name}
+                        class="w-full"
+                    />
+                </div>
 
-        <h2 class="text-xl font-bold mt-4 mb-2">Types:</h2>
-        <ul>
-            {#each pokemon.types as type}
-                <li>{type}</li>
-            {/each}
-        </ul>
-
-        <h2 class="text-xl font-bold mt-4 mb-2">Abilities:</h2>
-        <ul>
-            {#each pokemon.abilities as ability}
-                <li>{ability}</li>
-            {/each}
-        </ul>
-
-        <h2 class="text-xl font-bold mt-4 mb-2">Base Stats:</h2>
-        <ul>
-            {#each pokemon.baseStats as stat}
-                <li>{stat.name}: {stat.value}</li>
-            {/each}
-        </ul>
+                <div class="flex flex-col justify-center items-center">
+                    <p class="xs:text-5xl md:text-7xl font-bold text-green-700">
+                        {pokemon.name}
+                    </p>
+                </div>
+            </div>
+        </div>
     {/if}
 </div>

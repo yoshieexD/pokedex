@@ -4,17 +4,17 @@
     import ky from "ky";
     import Loading from "../../../components/+loading.svelte";
     import PokemonDetails from "../../../components/+pokemonDetails.svelte";
-    import {BaseUrl} from '../../../api/api';
+    import { BaseUrl } from "../../../api/api";
 
     let slug = $page.params.slug;
-    
+
     interface Pokemon {
+        id: number;
         name: string;
         weight: number;
         types: string[];
         abilities: string[];
         baseStats: { name: string; value: number }[];
-        image: string;
     }
 
     let pokemon: Pokemon | null = null;
@@ -27,18 +27,17 @@
             const abilities = data.abilities.map(
                 (ability: any) => ability.ability.name,
             );
-            const image = data.sprites.front_default;
             const baseStats = data.stats.map((stat: any) => ({
                 name: stat.stat.name,
                 value: stat.base_stat,
             }));
             pokemon = {
+                id: data.id,
                 name: data.name,
                 weight: data.weight,
                 types,
                 abilities,
                 baseStats,
-                image,
             };
         } catch (error) {
             console.error("Error fetching Pokemon data:", error);
@@ -46,7 +45,7 @@
     });
 </script>
 
-<div class="container mt-8">
+<div class="w-full h-screen">
     {#if pokemon}
         <PokemonDetails {pokemon} />
     {:else}

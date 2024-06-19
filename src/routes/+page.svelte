@@ -1,6 +1,6 @@
 <script lang="ts">
     import ky from "ky";
-    import { onMount } from "svelte";
+    import { onMount, afterUpdate } from "svelte";
     import PokemonList from "../components/+pokemonList.svelte";
     import Search from "../components/+search.svelte";
     import Loading from "../components/+loading.svelte";
@@ -17,21 +17,19 @@
     interface PokemonDetails {
         id: number;
         name: string;
-        sprites: {
-            front_default: string;
-        };
     }
 
     let value = "";
     let isLoading = true;
+    let isFetchingMore = false;
     export let pokemons: any[] = [];
 
-    async function fetchData(query: string) {
+    async function fetchData(query: string, limit?: number, offset?: number) {
         try {
             isLoading = true;
             const url = query
                 ? `${BaseUrl}/?limit=1000`
-                : `${BaseUrl}/?limit=30`;
+                : `${BaseUrl}/?limit=${limit}&offset=${offset}`;
             const data: PokeAPIResponse = await ky.get(url).json();
             if (query) {
                 const filteredData = data.results.filter((poke) =>
@@ -46,7 +44,6 @@
                             id: details.id,
                             name: poke.name,
                             url: poke.url,
-                            imageUrl: details.sprites.front_default,
                         };
                     }),
                 );
@@ -61,16 +58,16 @@
                             id: details.id,
                             name,
                             url,
-                            imageUrl: details.sprites.front_default,
                         };
                     }),
                 );
-                pokemons = detailedData;
+                pokemons = [...pokemons, ...detailedData];
             }
         } catch (error) {
             console.error("Error fetching data:", error);
         } finally {
             isLoading = false;
+            isFetchingMore = false;
         }
     }
 
@@ -79,17 +76,47 @@
         fetchData(value);
     }
 
+    async function fetchMoreData() {
+        if (!isFetchingMore) {
+            isFetchingMore = true;
+            const limit = 30;
+            const offset = pokemons.length;
+            await fetchData(value, limit, offset);
+        }
+    }
+
     onMount(() => {
-        fetchData("");
+        fetchData("", 15, 0);
+    });
+
+    function handleScroll() {
+        const { scrollTop, clientHeight, scrollHeight } =
+            document.documentElement;
+        if (scrollTop + clientHeight >= scrollHeight - 20) {
+            fetchMoreData();
+        }
+    }
+
+    afterUpdate(() => {
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
     });
 </script>
 
-<div>
-    <div class="text-3xl font-bold mb-4">Pokedex</div>
-    <Search placeholder="Search..." {value} oninput={handleChange} />
+<div
+    class="relative w-full h-full overflow-hidden inset-0 w-full bg-white bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] p-4"
+>
+    <div class="text-center">
+        <div class="text-4xl font-bold mb-">Pokedex</div>
+        <div>
+            <Search placeholder="Search..." {value} oninput={handleChange} />
+        </div>
+    </div>
+    <br />
+    <PokemonList {pokemons} />
     {#if isLoading}
         <Loading />
-    {:else}
-        <PokemonList {pokemons} />
     {/if}
 </div>
