@@ -1,4 +1,3 @@
-<!-- PokemonDetail.svelte -->
 <script lang="ts">
     export let pokemon: {
         name: string;

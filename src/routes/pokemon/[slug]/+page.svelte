@@ -4,10 +4,10 @@
     import ky from "ky";
     import Loading from "../../../components/+loading.svelte";
     import PokemonDetails from "../../../components/+pokemonDetails.svelte";
+    import {BaseUrl} from '../../../api/api';
 
     let slug = $page.params.slug;
-    const url = `https://pokeapi.co/api/v2/pokemon/${slug}`;
-
+    
     interface Pokemon {
         name: string;
         weight: number;
@@ -21,7 +21,7 @@
 
     onMount(async () => {
         try {
-            const response = await ky.get(url);
+            const response = await ky.get(`${BaseUrl}/${slug}`);
             const data: any = await response.json();
             const types = data.types.map((type: any) => type.type.name);
             const abilities = data.abilities.map(
