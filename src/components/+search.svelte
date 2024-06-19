@@ -11,10 +11,14 @@
     }
 </script>
 
-<input
-    type="text"
-    {placeholder}
-    bind:value
-    on:input={handleChange}
-    class="appearance-none border-none w-64 h-8 px-4 text-sm rounded-md bg-gray-600 text-white placeholder-gray-400 focus:outline-none focus:bg-gray-700 focus:shadow-outline"
-/>
+<div class="flex justify-center">
+    <div class=" bg-white w-[76%] rounded-md py-3 px-4 shadow-lg">
+        <input
+            type="text"
+            {placeholder}
+            bind:value
+            on:input={handleChange}
+            class="appearance-none border-none text-sm rounded-md placeholder-gray-400 text-gray-400 font-semibold focus:outline-none w-full"
+        />
+    </div>
+</div>

@@ -1,1 +1,1 @@
-<div class="flex items-center justify-center">loading...</div>
+<div class="flex items-center justify-center text-white">loading...</div>

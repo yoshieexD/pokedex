@@ -5,6 +5,7 @@
     import Search from "../components/+search.svelte";
     import Loading from "../components/+loading.svelte";
     import { BaseUrl } from "../api/api";
+    import SortBy from "../components/+sortBy.svelte";
 
     interface PokeAPIResponse {
         sprites: any;
@@ -18,7 +19,6 @@
         id: number;
         name: string;
     }
-
     let value = "";
     let isLoading = true;
     let isFetchingMore = false;
@@ -28,8 +28,8 @@
         try {
             isLoading = true;
             const url = query
-                ? `${BaseUrl}/?limit=1000`
-                : `${BaseUrl}/?limit=${limit}&offset=${offset}`;
+                ? `${BaseUrl}/pokemon/?limit=1000`
+                : `${BaseUrl}/pokemon/?limit=${limit}&offset=${offset}`;
             const data: PokeAPIResponse = await ky.get(url).json();
             if (query) {
                 const filteredData = data.results.filter((poke) =>
@@ -106,14 +106,25 @@
 </script>
 
 <div
-    class="relative w-full h-full overflow-hidden inset-0 w-full bg-white bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] p-4"
+    class={`${value ? "absolute" : "relative"} w-full h-full overflow-hidden inset-0 w-full bg-sky-200/10 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] p-4`}
 >
-    <div class="text-center">
-        <div class="text-4xl font-bold mb-">Pokedex</div>
+    <div class="text-center space-y-4">
+        <h1
+            class="text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-red-700 to-red-400"
+        >
+            Pokedex
+        </h1>
+
         <div>
-            <Search placeholder="Search..." {value} oninput={handleChange} />
+            <Search
+                placeholder="Search your pokemon!"
+                {value}
+                oninput={handleChange}
+            />
         </div>
     </div>
+    <br />
+    <SortBy />
     <br />
     <PokemonList {pokemons} />
     {#if isLoading}
