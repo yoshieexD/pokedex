@@ -37,3 +37,23 @@ export const btn: Record<PokemonType, string> = {
     dark: "bg-gray-800 shadow-lg shadow-gray-800/50",
     flying: "bg-sky-500 shadow-lg shadow-sky-500/50",
 };
+
+export const card = {
+    grass: "bg-green-200 ",
+    fire: "bg-red-200",
+    water: "bg-blue-200 ",
+    electric: "bg-yellow-200 ",
+    bug: "bg-lime-200",
+    normal: "bg-gray-200 ",
+    poison: "bg-purple-200",
+    ground: "bg-yellow-200 ",
+    psychic: "bg-pink-200",
+    ghost: "bg-indigo-200",
+    rock: "bg-yellow-200",
+    fairy: "bg-pink-200",
+    ice: "bg-blue-200",
+    steel: "bg-gray-200",
+    dragon: "bg-indigo-200",
+    dark: "bg-gray-200",
+    flying: "bg-sky-200",
+}

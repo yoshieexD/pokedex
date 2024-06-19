@@ -9,11 +9,15 @@
     {#each pokemons as { id, name }, index (index)}
         <Card href={`/pokemon/${name}`}>
             <div class="flex justify-center relative">
-                <img
-                    src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`}
-                    alt={name}
-                    class="mb-2 w-[50%] z-10"
-                />
+                <div
+                    class="w-full flex justify-center bg-sky-200 rounded-bl-[50%]"
+                >
+                    <img
+                        src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`}
+                        alt={name}
+                        class="mb-2 w-[50%] z-10"
+                    />
+                </div>
             </div>
             <div class="flex flex-col items-center justify-center pb-4">
                 <p class="font-bold text-xs text-gray-500">
