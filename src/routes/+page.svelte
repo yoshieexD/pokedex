@@ -47,25 +47,31 @@
             ) {
                 url = `${BaseUrl}/pokemon/?limit=150`;
             }
-            const datas: any = await ky.get(url).json();
             const data: PokeAPIResponse = await ky.get(url).json();
             if (query) {
-                const results =
-                    query === "secret_alpha_key" ||
-                    query === "secret_numeric_key"
-                        ? data.results.sort((a, b) => {
-                              if (query === "secret_alpha_key") {
-                                  return alphabetSorting
-                                      ? b.name.localeCompare(a.name, "en", {
-                                            sensitivity: "base",
-                                        })
-                                      : a.name.localeCompare(b.name, "en", {
-                                            sensitivity: "base",
-                                        });
-                              }
-                              return 0;
-                          })
-                        : data.results;
+                let results = data.results;
+
+                if (
+                    query !== "secret_alpha_key" &&
+                    query !== "secret_numeric_key" &&
+                    query !== ""
+                ) {
+                    results = results.filter((pokemon) =>
+                        pokemon.name
+                            .toLowerCase()
+                            .includes(query.toLowerCase()),
+                    );
+                } else if (query === "secret_alpha_key") {
+                    results = results.sort((a, b) =>
+                        alphabetSorting
+                            ? b.name.localeCompare(a.name, "en", {
+                                  sensitivity: "base",
+                              })
+                            : a.name.localeCompare(b.name, "en", {
+                                  sensitivity: "base",
+                              }),
+                    );
+                }
                 const detailedData = await Promise.all(
                     results.map(async (poke) => {
                         const details = await ky
@@ -82,7 +88,6 @@
                         };
                     }),
                 );
-
                 if (query === "secret_numeric_key") {
                     detailedData.sort((a, b) => {
                         return digitSorting ? b.id - a.id : a.id - b.id;
