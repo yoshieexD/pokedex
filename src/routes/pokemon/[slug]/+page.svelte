@@ -5,10 +5,26 @@
     import Loading from "../../../components/+loading.svelte";
     import PokemonDetails from "../../../components/+pokemonDetails.svelte";
     import { BaseUrl } from "../../../api/api";
+    import type { PokemonType } from "../../../theme/theme";
+
+    interface PokemonData {
+        id: number;
+        name: string;
+        weight: number;
+        types: PokemonType[];
+        abilities: string[];
+        baseStats: { name: string; value: number }[];
+        description: string;
+        strengths: PokemonType[];
+        weaknesses: PokemonType[];
+    }
 
     let slug = $page.params.slug;
+    let isLoading = true;
 
-    let pokemon: any | null = null;
+    let pokemon: PokemonData | null = null;
+    let strengths: PokemonType[] = [];
+    let weaknesses: PokemonType[] = [];
 
     onMount(async () => {
         try {
@@ -32,25 +48,42 @@
             const description = descriptionEntry
                 ? descriptionEntry.flavor_text
                 : "No description available";
-            pokemon = {
-                id: data.id,
-                name: data.name,
-                weight: data.weight,
-                types,
-                abilities,
-                baseStats,
-                description,
-            };
+
+            const typeResponse = await ky.get(`${BaseUrl}/type/${types[0]}`);
+            const typeData: any = await typeResponse.json();
+
+            strengths = typeData.damage_relations.double_damage_to.map(
+                (type: any) => type.name,
+            );
+            weaknesses = typeData.damage_relations.double_damage_from.map(
+                (type: any) => type.name,
+            );
+            setTimeout(() => {
+                pokemon = {
+                    id: data.id,
+                    name: data.name,
+                    weight: data.weight,
+                    types,
+                    abilities,
+                    baseStats,
+                    description,
+                    strengths,
+                    weaknesses,
+                };
+                isLoading = false;
+            }, 1000);
         } catch (error) {
             console.error("Error fetching Pokemon data:", error);
         }
     });
 </script>
 
-<div class="w-full h-screen">
-    {#if pokemon}
-        <PokemonDetails {pokemon} />
-    {:else}
+<div
+    class={`w-full h-screen ${isLoading ? "flex items-center justify-center" : ""}`}
+>
+    {#if isLoading}
         <Loading />
+    {:else}
+        <PokemonDetails {pokemon} />
     {/if}
 </div>

@@ -38,22 +38,24 @@ export const btn: Record<PokemonType, string> = {
     flying: "bg-sky-500 shadow-lg shadow-sky-500/50",
 };
 
-export const card = {
-    grass: "bg-green-200 ",
-    fire: "bg-red-200",
-    water: "bg-blue-200 ",
-    electric: "bg-yellow-200 ",
-    bug: "bg-lime-200",
-    normal: "bg-gray-200 ",
-    poison: "bg-purple-200",
-    ground: "bg-yellow-200 ",
-    psychic: "bg-pink-200",
-    ghost: "bg-indigo-200",
-    rock: "bg-yellow-200",
-    fairy: "bg-pink-200",
-    ice: "bg-blue-200",
-    steel: "bg-gray-200",
-    dragon: "bg-indigo-200",
-    dark: "bg-gray-200",
-    flying: "bg-sky-200",
+export const cardTheme = {
+    grass: "bg-green-400 ",
+    fire: "bg-red-400",
+    water: "bg-blue-400 ",
+    electric: "bg-yellow-400 ",
+    bug: "bg-lime-400",
+    normal: "bg-gray-400 ",
+    poison: "bg-purple-400",
+    ground: "bg-yellow-400 ",
+    psychic: "bg-pink-400",
+    ghost: "bg-indigo-400",
+    rock: "bg-yellow-400",
+    fairy: "bg-pink-400",
+    ice: "bg-blue-400",
+    steel: "bg-gray-400",
+    dragon: "bg-indigo-400",
+    dark: "bg-gray-400",
+    flying: "bg-sky-400",
 }
+
+export type cardType = keyof typeof cardTheme;
