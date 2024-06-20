@@ -6,16 +6,22 @@
     import Overview from "./+overview.svelte";
     import Stats from "./+stats.svelte";
 
+    interface EvolutionData {
+        name: string;
+        imageUrl: string;
+    }
     export let pokemon: {
         id: number;
         name: string;
         weight: number;
+        height: number;
         types: PokemonType[];
         abilities: string[];
         baseStats: { name: string; value: number }[];
         description: string;
         strengths: PokemonType[];
         weaknesses: PokemonType[];
+        evolutionChain?: EvolutionData[];
     } | null;
 
     const handleBack = async () => {
@@ -35,6 +41,12 @@
             window.location.href = `/pokemon/${data.name}`;
         }
     };
+
+    const handleGotoEvolution = async (name: string) => {
+        if (name) {
+            window.location.href = `/pokemon/${name}`;
+        }
+    };
 </script>
 
 {#if pokemon}
@@ -42,23 +54,45 @@
         class={`absolute w-full h-full  inset-0 w-full bg-sky-200/10 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] `}
     >
         <div class="w-full flex items-center justify-center">
-            <div class="w-[10%] flex justify-start px-8">
+            <div
+                class="xxs:w-[5%] sm:w-[10%] flex justify-start xxs:px-2 sm:px-8"
+            >
                 {#if pokemon.id !== 1}
-                    <button on:click={handleBack} class="text-3xl font-semibold"
+                    <button
+                        on:click={handleBack}
+                        class=" sm:text-3xl font-semibold lg:text-6xl"
                         >{"<"}</button
                     >
                 {/if}
             </div>
             <div
-                class="grid xxs:grid-cols-1 sm:grid-cols-2 space-x-16 w-[80%] items-center"
+                class="grid xxs:grid-cols-1 sm:grid-cols-2 sm:space-x-16 xxs:w-[95%] sm:w-[90%] items-center"
             >
                 <img
                     src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`}
                     alt={pokemon.name}
-                    class="xxs:w-[80%] sm:w-full"
+                    class="xxs:w-full sm:w-full"
                 />
-                <div class="space-y-4">
-                    <p class="xxs:text-3xl sm:text-4xl md:text-5xl font-bold">
+                <div
+                    class="absolute xxs:top-[3%] sm:top-[10%] sm:left-[2%] md:top-[30%] lg:top-[20%] lg:left-[15%] bg-gray-600/30 rounded-md py-2 px-6 border border-gray-200/20"
+                >
+                    <p class="text-white md:text-2xl lg:text-4xl">
+                        {pokemon.height} feet.
+                    </p>
+                </div>
+                <div
+                    class="absolute xxs:top-[30%] xxs:left-[50%] sm:top-[30%] md:top-[60%] sm:left-[20%] md:left-[30%] bg-gray-600/30 rounded-md py-2 px-6 border border-gray-200/20"
+                >
+                    <p class="text-white md:text-2xl lg:text-4xl">
+                        {pokemon.weight} kgs.
+                    </p>
+                </div>
+                <div
+                    class="space-y-4 w-full flex flex-col xxs:items-center sm:items-start"
+                >
+                    <p
+                        class="xxs:text-3xl sm:text-4xl md:text-5xl lg:text-8xl font-bold"
+                    >
                         {pokemon.name}
                     </p>
                     <div>
@@ -66,12 +100,35 @@
                             types={pokemon.types}
                             description={pokemon.description}
                         />
+                        <div>
+                            {#if pokemon.evolutionChain}
+                                <div class="flex">
+                                    {#each pokemon.evolutionChain as evolution}
+                                        <button
+                                            on:click={() =>
+                                                handleGotoEvolution(
+                                                    evolution.name,
+                                                )}
+                                        >
+                                            <img
+                                                src={evolution.imageUrl}
+                                                alt={evolution.name}
+                                                class="w-24 h-24"
+                                            />
+                                        </button>
+                                    {/each}
+                                </div>
+                            {/if}
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="w-[10%] flex justify-end px-8">
-                <button on:click={handleNext} class="text-3xl font-semibold"
-                    >{">"}</button
+            <div
+                class="xxs:w-[5%] sm:w-[10%] flex justify-end xxs:px-2 sm:px-8"
+            >
+                <button
+                    on:click={handleNext}
+                    class="sm:text-3xl font-semibold lg:text-6xl">{">"}</button
                 >
             </div>
         </div>
@@ -89,7 +146,7 @@
                         <div class="grid xxs:grid-cols-2 md:grid-cols-3">
                             {#each pokemon.abilities as ability}
                                 <button
-                                    class="bg-gray-800 shadow-lg shadow-gray-800/50 text-white rounded-md h-8 px-6 text-sm font-semibold m-4"
+                                    class="bg-gray-800 shadow-lg shadow-gray-800/50 text-white rounded-md py-2 px-6 text-sm font-semibold m-4"
                                     >{ability}</button
                                 >
                             {/each}
@@ -114,7 +171,9 @@
 
                         <div class="space-y-2 px-4">
                             <p class="text-xl font-semibold">Weak against</p>
-                            <div class="grid xxs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3">
+                            <div
+                                class="grid xxs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3"
+                            >
                                 {#each pokemon.weaknesses as weak}
                                     <button
                                         class={`${btn[weak]} text-white rounded-md h-8 px-6 text-sm font-semibold m-4`}

@@ -15,7 +15,8 @@ export type PokemonType =
     | "steel"
     | "dragon"
     | "flying"
-    | "dark";
+    | "dark"
+    | "fighting";
 
 
 export const btn: Record<PokemonType, string> = {
@@ -36,6 +37,7 @@ export const btn: Record<PokemonType, string> = {
     dragon: "bg-indigo-700 shadow-lg shadow-indigo-700/50",
     dark: "bg-gray-800 shadow-lg shadow-gray-800/50",
     flying: "bg-sky-500 shadow-lg shadow-sky-500/50",
+    fighting: "bg-red-500 shadow-lg shadow-sky-500/50",
 };
 
 export const cardTheme = {
@@ -56,6 +58,7 @@ export const cardTheme = {
     dragon: "bg-indigo-400",
     dark: "bg-gray-400",
     flying: "bg-sky-400",
+    fighting: "bg-red-400",
 }
 
 export type cardType = keyof typeof cardTheme;

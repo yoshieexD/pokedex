@@ -1,38 +1,56 @@
-# create-svelte
+# Svelte Pokédex App
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+## Table of Contents
 
-## Creating a project
+1. [Introduction](#introduction)
+2. [Prerequisites](#prerequisites)
+3. [Setup Instructions](#setup-instructions)
+4. [Build and Run](#build-and-run)
+## 1. Introduction
 
-If you're seeing this, you've probably already done this step. Congrats!
+Welcome to the Svelte Pokédex App! This project is a web application that allows users to explore and search for Pokémon using data fetched from the PokéAPI. It is built using the Svelte framework for reactive UI components.
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+## 2. Prerequisites
 
-# create a new project in my-app
-npm create svelte@latest my-app
+Before you begin, ensure you have the following installed on your machine:
+
+- Node.js (version 12 or higher)
+- npm (Node Package Manager) or yarn
+
+## 3. Setup Instructions
+
+To get started with the project, follow these steps:
+
+1. **Clone the repository:**
+
+```bash 
+   git clone https://github.com/yoshieexD/pokedex
+   cd svelte-pokedex-app
 ```
 
-## Developing
+2. **Install dependencies:**
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+```bash 
+npm install
+# or
+yarn
+```
 
-```bash
+## 3. Build and Run:
+
+to run, use the following command:
+
+```bash 
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+# or
+yarn dev
 ```
 
-## Building
+to build, use the following command:
 
-To create a production version of your app:
-
-```bash
+```bash 
 npm run build
+# or
+yarn build
+
 ```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.

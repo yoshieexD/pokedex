@@ -31,30 +31,47 @@
     let alphabetSorting: boolean = false;
     let digitSorting: boolean = false;
 
-    export let pokemons: { id: number; name: string; type: PokemonType }[] = [];
+    let pokemons: { id: number; name: string; type: PokemonType }[] = [];
 
     async function fetchData(query: string, limit?: number, offset?: number) {
         try {
             isLoading = true;
-            const url = query
+            let url = query
                 ? `${BaseUrl}/pokemon/?limit=1000`
                 : `${BaseUrl}/pokemon/?limit=${limit}&offset=${offset}`;
-            const data: PokeAPIResponse = await ky.get(url).json();
 
+            if (
+                query === "secret_alpha_key" ||
+                query === "secret_numeric_key"
+            ) {
+                url = `${BaseUrl}/pokemon/?limit=150`;
+            }
+
+            const data: PokeAPIResponse = await ky.get(url).json();
             if (query) {
-                const filteredData = data.results.filter((poke) => {
-                    const pokeId = (poke.url.match(/\/(\d+)\/$/) || [])[1];
-                    return (
-                        poke.name.toLowerCase().includes(query.toLowerCase()) ||
-                        (pokeId && pokeId === query.toLowerCase().trim()) ||
-                        (pokeId &&
-                            pokeId.padStart(query.length, "0") ===
-                                query.toLowerCase().trim())
-                    );
-                });
+                const results =
+                    query === "secret_alpha_key" ||
+                    query === "secret_numeric_key"
+                        ? data.results.sort((a, b) => {
+                              if (query === "secret_alpha_key") {
+                                  return alphabetSorting
+                                      ? b.name.localeCompare(a.name, "en", {
+                                            sensitivity: "base",
+                                        })
+                                      : a.name.localeCompare(b.name, "en", {
+                                            sensitivity: "base",
+                                        });
+                              } else if (query === "secret_numeric_key") {
+                                  return digitSorting
+                                      ? b.id - a.id
+                                      : a.id - b.id;
+                              }
+                              return 0;
+                          })
+                        : data.results;
 
                 const detailedData = await Promise.all(
-                    filteredData.map(async (poke) => {
+                    results.map(async (poke) => {
                         const details = await ky
                             .get(poke.url)
                             .json<PokemonDetails>();
@@ -69,10 +86,6 @@
                         };
                     }),
                 );
-
-                if (alphabetSorting) {
-                    detailedData.sort((a, b) => a.name.localeCompare(b.name));
-                }
 
                 pokemons = detailedData;
             } else {
@@ -92,9 +105,6 @@
                         };
                     }),
                 );
-                if (alphabetSorting) {
-                    detailedData.sort((a, b) => a.name.localeCompare(b.name));
-                }
                 pokemons = [...pokemons, ...detailedData];
             }
         } catch (error) {
@@ -106,11 +116,15 @@
     }
 
     function handleSort(type: string) {
+        let query = "";
         if (type === "alpha") {
             alphabetSorting = !alphabetSorting;
+            query = "secret_alpha_key";
         } else if (type === "numeric") {
             digitSorting = !digitSorting;
+            query = "secret_numeric_key";
         }
+        fetchData(query);
     }
 
     function handleChange(event: any) {
@@ -128,7 +142,7 @@
     }
 
     onMount(() => {
-        fetchData("", 15, 0);
+        fetchData("");
     });
 
     function handleScroll() {
@@ -186,22 +200,22 @@
     <br />
     <div class="flex justify-center">
         <div class="w-[77%] flex space-x-2">
-            <button class="" on:click={() => handleSort("alpha")}
-                >Name:
+            <button class="" on:click={() => handleSort("alpha")}>
+                Name:
                 {#if alphabetSorting}
                     [Z-a]
                 {:else}
                     [A-z]
                 {/if}
             </button>
-            <button class="" on:click={() => handleSort("numeric")}
-                >Id:
+            <button class="" on:click={() => handleSort("numeric")}>
+                Id:
                 {#if digitSorting}
                     [1000-001]
                 {:else}
                     [001-1000]
-                {/if}</button
-            >
+                {/if}
+            </button>
         </div>
     </div>
     <br />

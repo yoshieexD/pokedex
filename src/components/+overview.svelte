@@ -7,7 +7,9 @@
 </script>
 
 <div class="flex flex-col space-y-4">
-    <div class="cursor-pointer space-x-4">
+    <div
+        class="cursor-pointer space-x-4 flex xxs:justify-center sm:justify-start"
+    >
         {#each types as type}
             <button
                 class={`text-white rounded-md h-8 px-6 text-md font-semibold ${btn[type] || "bg-gray-500 shadow-gray-500/50"}`}
@@ -16,5 +18,5 @@
             </button>
         {/each}
     </div>
-    <p class="text-gray-700">{description}</p>
+    <p class="text-gray-700 xxs:text-center sm:text-start md:text-xl lg:text-3xl">{description}</p>
 </div>
