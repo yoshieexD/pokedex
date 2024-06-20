@@ -5,7 +5,7 @@
     import { BaseUrl } from "../api/api";
     import Overview from "./+overview.svelte";
     import Stats from "./+stats.svelte";
-
+    import Header from "./+header.svelte";
     interface EvolutionData {
         name: string;
         imageUrl: string;
@@ -53,6 +53,7 @@
     <div
         class={`absolute w-full h-full  inset-0 w-full bg-sky-200/10 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] `}
     >
+        <Header />
         <div class="w-full flex items-center justify-center">
             <div
                 class="xxs:w-[5%] sm:w-[10%] flex justify-start xxs:px-2 sm:px-8"
@@ -74,14 +75,14 @@
                     class="xxs:w-full sm:w-full"
                 />
                 <div
-                    class="absolute xxs:top-[3%] sm:top-[10%] sm:left-[2%] md:top-[30%] lg:top-[20%] lg:left-[15%] bg-gray-600/30 rounded-md py-2 px-6 border border-gray-200/20"
+                    class="absolute xxs:top-[30%] sm:top-[10%] sm:left-[2%] md:top-[30%] lg:top-[20%] lg:left-[15%] bg-gray-600/30 rounded-md py-2 px-6 border border-gray-200/20"
                 >
                     <p class="text-white md:text-2xl lg:text-4xl">
                         {pokemon.height} feet.
                     </p>
                 </div>
                 <div
-                    class="absolute xxs:top-[30%] xxs:left-[50%] sm:top-[30%] md:top-[60%] sm:left-[20%] md:left-[30%] bg-gray-600/30 rounded-md py-2 px-6 border border-gray-200/20"
+                    class="absolute xxs:top-[60%] xxs:left-[50%] sm:top-[30%] md:top-[60%] sm:left-[20%] md:left-[30%] bg-gray-600/30 rounded-md py-2 px-6 border border-gray-200/20"
                 >
                     <p class="text-white md:text-2xl lg:text-4xl">
                         {pokemon.weight} kgs.
@@ -109,6 +110,7 @@
                                                 handleGotoEvolution(
                                                     evolution.name,
                                                 )}
+                                            class="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110"
                                         >
                                             <img
                                                 src={evolution.imageUrl}
@@ -136,13 +138,15 @@
         <div class="  w-full flex justify-center">
             <div class="grid xxs:grid-cols-1 sm:grid-cols-2 w-[80%]">
                 <div class="space-y-4">
-                    <p class="text-xl font-semibold">Stats</p>
+                    <p class="text-xl font-semibold text-gray-400">Stats</p>
                     <Stats baseStats={pokemon.baseStats} />
                 </div>
                 <div class="grid grid-cols-1">
                     <!--Abilities-->
                     <div class="space-y-4 px-4">
-                        <p class="text-xl font-semibold">Abilities</p>
+                        <p class="text-xl font-semibold text-gray-400">
+                            Abilities
+                        </p>
                         <div class="grid xxs:grid-cols-2 md:grid-cols-3">
                             {#each pokemon.abilities as ability}
                                 <button
@@ -156,7 +160,7 @@
                     <!--weaknesses and strength-->
                     <div class="grid grid-cols-1">
                         <div class="space-y-4 px-4">
-                            <p class="text-xl font-semibold">
+                            <p class="text-xl font-semibold text-gray-400">
                                 Strength against
                             </p>
                             <div class="grid xxs:grid-cols-2 md:grid-cols-3">
@@ -170,7 +174,9 @@
                         </div>
 
                         <div class="space-y-2 px-4">
-                            <p class="text-xl font-semibold">Weak against</p>
+                            <p class="text-xl font-semibold text-gray-400">
+                                Weak against
+                            </p>
                             <div
                                 class="grid xxs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3"
                             >

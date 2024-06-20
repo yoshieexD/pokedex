@@ -16,7 +16,7 @@
         id: number;
         name: string;
         weight: number;
-        height:number,
+        height: number;
         types: PokemonType[];
         abilities: string[];
         baseStats: { name: string; value: number }[];
@@ -92,7 +92,7 @@
                     id: data.id,
                     name: data.name,
                     weight: data.weight,
-                    height:data.height,
+                    height: data.height,
                     types,
                     abilities,
                     baseStats,
@@ -113,7 +113,7 @@
     class={`w-full h-screen ${isLoading ? "flex items-center justify-center" : ""}`}
 >
     {#if isLoading}
-        <Loading />
+        <Loading className="w-[30%] h-[30%]" />
     {:else}
         <PokemonDetails {pokemon} />
     {/if}

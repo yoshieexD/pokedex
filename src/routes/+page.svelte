@@ -6,6 +6,7 @@
     import Loading from "../components/+loading.svelte";
     import { BaseUrl } from "../api/api";
     import type { PokemonType } from "../theme/theme";
+    import Header from "../components/+header.svelte";
 
     interface PokeAPIResponse {
         sprites: any;
@@ -165,23 +166,7 @@
     class={`${value ? "absolute" : "relative"} w-full h-full overflow-hidden inset-0 w-full bg-sky-200/10 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] `}
 >
     <div class="text-center xxs:space-y-4 md:space-y-16">
-        <div class="flex justify-center bg-gray-400 rounded-bl-full">
-            <img
-                src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png"
-                alt="Charizard"
-                class=" w-[100px]"
-            />
-            <h1
-                class="xxs:text-6xl sm:text-6xl md:text-7xl font-bold text-white"
-            >
-                Pokédex
-            </h1>
-            <img
-                src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png"
-                alt="Pikachu"
-                class=" w-[100px]"
-            />
-        </div>
+        <Header />
         <div class="flex justify-center">
             <p class="text-center w-[50%] text-gray-700 font-mediuma">
                 Unleash your inner Pokémon Master with our ultimate Pokédex!
@@ -200,20 +185,26 @@
     <br />
     <div class="flex justify-center">
         <div class="w-[77%] flex space-x-2">
-            <button class="" on:click={() => handleSort("alpha")}>
-                Name:
+            <button
+                class={`text-gray-400 flex space-x-2`}
+                on:click={() => handleSort("alpha")}
+            >
+                <p>name:</p>
                 {#if alphabetSorting}
-                    [Z-a]
+                    <p class="text-red-400 font-bold">desc</p>
                 {:else}
-                    [A-z]
+                    <p class="text-green-400 font-bold">asc</p>
                 {/if}
             </button>
-            <button class="" on:click={() => handleSort("numeric")}>
-                Id:
+            <button
+                class={`text-gray-400 flex space-x-2`}
+                on:click={() => handleSort("numeric")}
+            >
+                <p>id:</p>
                 {#if digitSorting}
-                    [1000-001]
+                    <p class="text-red-400 font-bold">desc</p>
                 {:else}
-                    [001-1000]
+                    <p class="text-green-400 font-bold">asc</p>
                 {/if}
             </button>
         </div>
