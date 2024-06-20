@@ -8,7 +8,7 @@
 4. [Build and Run](#build-and-run)
 ## 1. Introduction
 
-Welcome to the Svelte Pokédex App! This project is a web application that allows users to explore and search for Pokémon using data fetched from the PokéAPI. It is built using the Svelte framework for reactive UI components.
+Welcome to the  Pokédex App! This project is a web application that allows users to explore and search for Pokémon using data fetched from the PokéAPI. It is built using the Svelte framework for reactive UI components and Tailwind for styling.
 
 ## 2. Prerequisites
 
@@ -25,7 +25,7 @@ To get started with the project, follow these steps:
 
 ```bash 
    git clone https://github.com/yoshieexD/pokedex
-   cd svelte-pokedex-app
+   cd pokedex
 ```
 
 2. **Install dependencies:**

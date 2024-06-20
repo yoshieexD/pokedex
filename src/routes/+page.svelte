@@ -47,7 +47,7 @@
             ) {
                 url = `${BaseUrl}/pokemon/?limit=150`;
             }
-
+            const datas: any = await ky.get(url).json();
             const data: PokeAPIResponse = await ky.get(url).json();
             if (query) {
                 const results =
@@ -62,15 +62,10 @@
                                       : a.name.localeCompare(b.name, "en", {
                                             sensitivity: "base",
                                         });
-                              } else if (query === "secret_numeric_key") {
-                                  return digitSorting
-                                      ? b.id - a.id
-                                      : a.id - b.id;
                               }
                               return 0;
                           })
                         : data.results;
-
                 const detailedData = await Promise.all(
                     results.map(async (poke) => {
                         const details = await ky
@@ -88,6 +83,11 @@
                     }),
                 );
 
+                if (query === "secret_numeric_key") {
+                    detailedData.sort((a, b) => {
+                        return digitSorting ? b.id - a.id : a.id - b.id;
+                    });
+                }
                 pokemons = detailedData;
             } else {
                 const detailedData = await Promise.all(
@@ -168,7 +168,9 @@
     <div class="text-center xxs:space-y-4 md:space-y-16">
         <Header />
         <div class="flex justify-center">
-            <p class="text-center w-[50%] text-gray-700 font-mediuma">
+            <p
+                class="text-center xxs:w-[80%] sm:w-[50%] text-gray-700 font-medium"
+            >
                 Unleash your inner Pokémon Master with our ultimate Pokédex!
                 Discover, collect, and battle your favorite Pokémon in a world
                 where adventure awaits!

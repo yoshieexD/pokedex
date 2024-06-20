@@ -75,14 +75,14 @@
                     class="xxs:w-full sm:w-full"
                 />
                 <div
-                    class="absolute xxs:top-[30%] sm:top-[10%] sm:left-[2%] md:top-[30%] lg:top-[20%] lg:left-[15%] bg-gray-600/30 rounded-md py-2 px-6 border border-gray-200/20"
+                    class="absolute xxs:top-[30%] hover:bg-gray-400/70 cursor-pointer sm:top-[20%] sm:left-[2%] md:top-[30%] lg:top-[30%] lg:left-[15%] bg-gray-600/30 rounded-md py-2 px-6 border border-gray-200/20"
                 >
                     <p class="text-white md:text-2xl lg:text-4xl">
                         {pokemon.height} feet.
                     </p>
                 </div>
                 <div
-                    class="absolute xxs:top-[60%] xxs:left-[50%] sm:top-[30%] md:top-[60%] sm:left-[20%] md:left-[30%] bg-gray-600/30 rounded-md py-2 px-6 border border-gray-200/20"
+                    class="absolute xxs:top-[60%] hover:bg-gray-400/70 cursor-pointer xxs:left-[50%] sm:top-[40%] md:top-[60%] sm:left-[20%] md:left-[30%] bg-gray-600/30 rounded-md py-2 px-6 border border-gray-200/20"
                 >
                     <p class="text-white md:text-2xl lg:text-4xl">
                         {pokemon.weight} kgs.
@@ -103,7 +103,9 @@
                         />
                         <div>
                             {#if pokemon.evolutionChain}
-                                <div class="flex">
+                                <div
+                                    class="flex xxs:justify-center sm:justify-start"
+                                >
                                     {#each pokemon.evolutionChain as evolution}
                                         <button
                                             on:click={() =>
@@ -135,7 +137,7 @@
             </div>
         </div>
         <!-- next row -->
-        <div class="  w-full flex justify-center">
+        <div class="  w-full flex justify-center pb-8">
             <div class="grid xxs:grid-cols-1 sm:grid-cols-2 w-[80%]">
                 <div class="space-y-4">
                     <p class="text-xl font-semibold text-gray-400">Stats</p>
