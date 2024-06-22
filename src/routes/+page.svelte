@@ -7,24 +7,8 @@
     import { BaseUrl } from "../api/api";
     import type { PokemonType } from "../theme/theme";
     import Header from "../components/+header.svelte";
+    import type { PokeAPIResponse, PokemonDetails } from '../api/home/interface';
 
-    interface PokeAPIResponse {
-        sprites: any;
-        id: number;
-        name: string;
-        results: {
-            id: number;
-            name: string;
-            url: string;
-        }[];
-        next: string | null;
-    }
-
-    interface PokemonDetails {
-        types: { type: { name: PokemonType } }[];
-        id: number;
-        name: string;
-    }
 
     let value = "";
     let isLoading = true;

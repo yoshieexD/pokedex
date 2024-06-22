@@ -1,7 +1,5 @@
-<!-- Stats.svelte -->
 <script lang="ts">
     export let baseStats: { name: string; value: number }[] = [];
-    console.log(baseStats);
 </script>
 
 <div class="flex flex-col space-y-4">
@@ -19,9 +17,13 @@
                 />
             </div>
             <div
-                class={`text-xs text-end px-4  ${stat.value > 70 ? "text-green-500" : stat.value > 30 ? "text-yellow-500" : "text-red-500"} font-extrabold`}>
+                class={`text-xs text-end px-4  ${stat.value > 70 ? "text-green-500" : stat.value > 30 ? "text-yellow-500" : "text-red-500"} font-extrabold`}
+            >
                 {stat.value}
             </div>
         </div>
     {/each}
 </div>
+
+
+
